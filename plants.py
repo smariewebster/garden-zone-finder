@@ -16,6 +16,16 @@ PLANTS = [
         "notes": "Staple of NM cuisine. Start indoors 8 weeks before last frost.",
         "direct_sow": False,
         "weeks_before_frost": 8,
+        "companions": [
+            {"name": "Basil", "reason": "repels aphids and spider mites"},
+            {"name": "Carrot", "reason": "loosens soil around pepper roots"},
+            {"name": "Tomato", "reason": "similar needs, mutual pest confusion"},
+            {"name": "Epazote", "reason": "traditional companion, deters pests"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic, inhibits pepper growth"},
+            {"name": "Brassicas", "reason": "compete for nutrients and water"},
+        ],
     },
     {
         "name": "Pinto Bean",
@@ -27,6 +37,17 @@ PLANTS = [
         "notes": "Heat tolerant. Direct sow after last frost.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Corn (Heirloom Blue)", "reason": "Three Sisters - corn provides trellis support"},
+            {"name": "Squash (Cushaw)", "reason": "Three Sisters - squash shades soil and suppresses weeds"},
+            {"name": "Desert Marigold", "reason": "deters Mexican bean beetles"},
+            {"name": "Epazote", "reason": "traditional companion - reduces bean flatulence, deters beetles"},
+        ],
+        "avoid": [
+            {"name": "Onion", "reason": "alliums stunt bean growth"},
+            {"name": "Garlic", "reason": "inhibits bean germination and growth"},
+            {"name": "Fennel", "reason": "allelopathic to most vegetables including beans"},
+        ],
     },
     {
         "name": "Tomato",
@@ -38,6 +59,17 @@ PLANTS = [
         "notes": "Start indoors 6-8 weeks before last frost. Mulch heavily in NM heat.",
         "direct_sow": False,
         "weeks_before_frost": 8,
+        "companions": [
+            {"name": "Basil", "reason": "repels aphids and tomato hornworm, said to improve flavor"},
+            {"name": "Carrot", "reason": "loosens soil around tomato roots"},
+            {"name": "Desert Marigold", "reason": "deters nematodes and whiteflies"},
+            {"name": "Borage", "reason": "deters tomato hornworm and attracts pollinators"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "strongly inhibits tomato growth"},
+            {"name": "Corn (Heirloom Blue)", "reason": "share earworm/fruitworm pest"},
+            {"name": "Brassicas", "reason": "compete for nutrients, different soil preferences"},
+        ],
     },
     {
         "name": "Zucchini",
@@ -49,6 +81,16 @@ PLANTS = [
         "notes": "Direct sow after last frost. Very productive in high desert.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Corn (Heirloom Blue)", "reason": "Three Sisters - corn provides wind shelter"},
+            {"name": "Pinto Bean", "reason": "Three Sisters - beans fix nitrogen"},
+            {"name": "Nasturtium", "reason": "trap crop for aphids and squash bugs"},
+            {"name": "Desert Marigold", "reason": "deters squash beetles and nematodes"},
+        ],
+        "avoid": [
+            {"name": "Potato", "reason": "both susceptible to blight, shared disease risk"},
+            {"name": "Fennel", "reason": "allelopathic to squash family"},
+        ],
     },
     {
         "name": "Garlic",
@@ -60,6 +102,17 @@ PLANTS = [
         "notes": "Plant cloves in fall (Oct-Nov) for summer harvest.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Tomato", "reason": "deters spider mites and aphids on tomato"},
+            {"name": "Beet", "reason": "mutual growth enhancement"},
+            {"name": "Chamomile", "reason": "said to improve garlic flavor"},
+            {"name": "Yarrow", "reason": "attracts beneficial insects to the bed"},
+        ],
+        "avoid": [
+            {"name": "Pinto Bean", "reason": "garlic inhibits bean growth"},
+            {"name": "Snap Pea", "reason": "alliums stunt pea growth"},
+            {"name": "Black Bean", "reason": "garlic inhibits all legumes"},
+        ],
     },
     {
         "name": "Kale",
@@ -72,6 +125,17 @@ PLANTS = [
         "direct_sow": True,
         "weeks_before_frost": 0,
         "cool_season": True,
+        "companions": [
+            {"name": "Chamomile", "reason": "improves brassica growth and flavor"},
+            {"name": "Nasturtium", "reason": "trap crop for aphids away from kale"},
+            {"name": "Desert Marigold", "reason": "deters cabbage moths and loopers"},
+            {"name": "Dill", "reason": "attracts beneficial wasps that prey on cabbage worms"},
+        ],
+        "avoid": [
+            {"name": "Strawberry", "reason": "brassicas inhibit strawberry growth"},
+            {"name": "Tomato", "reason": "compete for calcium, different watering rhythms"},
+            {"name": "Fennel", "reason": "allelopathic to brassicas"},
+        ],
     },
     {
         "name": "Corn (Heirloom Blue)",
@@ -83,6 +147,16 @@ PLANTS = [
         "notes": "Traditional Pueblo crop. Direct sow in blocks for pollination.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Pinto Bean", "reason": "Three Sisters - beans fix nitrogen for corn"},
+            {"name": "Squash (Cushaw)", "reason": "Three Sisters - squash leaves shade weeds"},
+            {"name": "Sunflower", "reason": "attracts pollinators, similar height compatibility"},
+            {"name": "Cucumber", "reason": "uses shaded space at corn base"},
+        ],
+        "avoid": [
+            {"name": "Tomato", "reason": "share corn earworm/tomato fruitworm pest"},
+            {"name": "Fennel", "reason": "inhibits corn germination and growth"},
+        ],
     },
     {
         "name": "Squash (Cushaw)",
@@ -94,6 +168,16 @@ PLANTS = [
         "notes": "Traditional NM crop. Extremely drought tolerant.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Corn (Heirloom Blue)", "reason": "Three Sisters - squash shades corn roots"},
+            {"name": "Pinto Bean", "reason": "Three Sisters - beans fix nitrogen"},
+            {"name": "Nasturtium", "reason": "repels squash bugs and cucumber beetles"},
+            {"name": "Desert Marigold", "reason": "deters squash vine borers and beetles"},
+        ],
+        "avoid": [
+            {"name": "Potato", "reason": "share blight and vine diseases"},
+            {"name": "Fennel", "reason": "allelopathic to cucurbit family"},
+        ],
     },
 
     # --- FRUITS ---
@@ -107,6 +191,15 @@ PLANTS = [
         "notes": "Pads and fruit both edible. Extremely drought tolerant.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Desert Marigold", "reason": "similar water needs, deters soil pests"},
+            {"name": "Globe Mallow", "reason": "shares native desert habitat, compatible roots"},
+            {"name": "Apache Plume", "reason": "native companion, same low-water conditions"},
+        ],
+        "avoid": [
+            {"name": "Watermelon", "reason": "watermelon irrigation causes cactus root rot"},
+            {"name": "Cucumber", "reason": "high water needs incompatible with cactus"},
+        ],
     },
     {
         "name": "Apricot",
@@ -118,6 +211,15 @@ PLANTS = [
         "notes": "Thrives in NM. Late frosts can damage blossoms - plant on a north slope.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Lavender", "reason": "deters pests, attracts pollinators for fruit set"},
+            {"name": "Yarrow", "reason": "attracts beneficial predatory insects"},
+            {"name": "Chamomile", "reason": "dynamic accumulator, improves soil around roots"},
+        ],
+        "avoid": [
+            {"name": "Tomato", "reason": "shares verticillium wilt pathogen"},
+            {"name": "Raspberry", "reason": "shares aphid populations and disease vectors"},
+        ],
     },
     {
         "name": "Grape",
@@ -129,6 +231,15 @@ PLANTS = [
         "notes": "NM has a long winemaking tradition. Well-draining alkaline soil is ideal.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Hyssop", "reason": "traditional companion said to improve grape flavor and growth"},
+            {"name": "Chamomile", "reason": "dynamic accumulator, improves soil health"},
+            {"name": "Yarrow", "reason": "attracts beneficial insects, deters grape leafhoppers"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to grape vines"},
+            {"name": "Brassicas", "reason": "compete for nutrients and inhibit grape roots"},
+        ],
     },
 
     # --- FLOWERS ---
@@ -142,6 +253,15 @@ PLANTS = [
         "notes": "Bright yellow. Blooms spring through fall. Self-seeds readily.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Tomato", "reason": "deters nematodes and whiteflies in soil"},
+            {"name": "Green Chile Pepper", "reason": "deters aphids and spider mites"},
+            {"name": "Squash (Cushaw)", "reason": "deters squash beetles"},
+            {"name": "Pinto Bean", "reason": "deters Mexican bean beetles"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic compounds can affect marigold growth"},
+        ],
     },
     {
         "name": "Rocky Mountain Penstemon",
@@ -153,6 +273,15 @@ PLANTS = [
         "notes": "Attracts hummingbirds. Very drought tolerant once established.",
         "direct_sow": False,
         "weeks_before_frost": 8,
+        "companions": [
+            {"name": "Yarrow", "reason": "shares low-water habitat, attracts same pollinators"},
+            {"name": "Globe Mallow", "reason": "native companion with compatible water needs"},
+            {"name": "Apache Plume", "reason": "native shrub companion, similar soil preference"},
+        ],
+        "avoid": [
+            {"name": "Tomato", "reason": "tomato irrigation far exceeds penstemon's drought tolerance"},
+            {"name": "Zucchini", "reason": "heavy water and fertilizer needs overwhelm penstemon"},
+        ],
     },
     {
         "name": "Zinnia",
@@ -164,6 +293,14 @@ PLANTS = [
         "notes": "Thrives in heat. Direct sow after last frost. Great pollinator plant.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Tomato", "reason": "attracts beneficial insects and pollinators to garden"},
+            {"name": "Cucumber", "reason": "draws pollinators that improve cucumber fruit set"},
+            {"name": "Corn (Heirloom Blue)", "reason": "fills space at base, attracts pollinators"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to zinnia"},
+        ],
     },
     {
         "name": "Apache Plume",
@@ -175,6 +312,15 @@ PLANTS = [
         "notes": "Feathery seed heads after bloom. Excellent wildlife habitat.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Globe Mallow", "reason": "native desert companions with same water regime"},
+            {"name": "Rocky Mountain Penstemon", "reason": "native habitat companions"},
+            {"name": "Prickly Pear Cactus", "reason": "shares native xeric habitat"},
+        ],
+        "avoid": [
+            {"name": "Watermelon", "reason": "irrigation demand incompatible with apache plume"},
+            {"name": "Swiss Chard", "reason": "chard's water needs cause root problems in apache plume"},
+        ],
     },
     {
         "name": "Sunflower",
@@ -186,6 +332,15 @@ PLANTS = [
         "notes": "Native to North America. Direct sow after last frost.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Cucumber", "reason": "shade helps cucumbers, sunflower attracts bees"},
+            {"name": "Corn (Heirloom Blue)", "reason": "tall companion, both attract pollinators"},
+            {"name": "Desert Marigold", "reason": "combined pest deterrence at garden perimeter"},
+        ],
+        "avoid": [
+            {"name": "Pinto Bean", "reason": "sunflower exudates stunt pole bean growth"},
+            {"name": "Potato", "reason": "allelopathic effect on potato tuber development"},
+        ],
     },
 
     # --- VEGETABLES (additional) ---
@@ -200,6 +355,16 @@ PLANTS = [
         "direct_sow": True,
         "weeks_before_frost": 0,
         "cool_season": True,
+        "companions": [
+            {"name": "Garlic", "reason": "repels pests, enhances beet flavor"},
+            {"name": "Onion", "reason": "mutual pest deterrence"},
+            {"name": "Lettuce", "reason": "compatible growth habits and timing"},
+            {"name": "Chamomile", "reason": "dynamic accumulator that benefits beet soil"},
+        ],
+        "avoid": [
+            {"name": "Pinto Bean", "reason": "pole beans inhibit beet growth"},
+            {"name": "Black Bean", "reason": "bean exudates stunt beet development"},
+        ],
     },
     {
         "name": "Carrot",
@@ -212,6 +377,16 @@ PLANTS = [
         "direct_sow": True,
         "weeks_before_frost": 0,
         "cool_season": True,
+        "companions": [
+            {"name": "Onion", "reason": "onion scent confuses carrot fly"},
+            {"name": "Leek", "reason": "leek deters carrot fly, carrot deters leek moth"},
+            {"name": "Rosemary", "reason": "deters carrot fly with strong scent"},
+            {"name": "Tomato", "reason": "tomato repels carrot fly"},
+        ],
+        "avoid": [
+            {"name": "Dill", "reason": "mature dill inhibits carrot growth and crosses"},
+            {"name": "Fennel", "reason": "strongly allelopathic to carrots"},
+        ],
     },
     {
         "name": "Turnip",
@@ -224,6 +399,15 @@ PLANTS = [
         "direct_sow": True,
         "weeks_before_frost": 0,
         "cool_season": True,
+        "companions": [
+            {"name": "Snap Pea", "reason": "peas fix nitrogen that benefits turnips"},
+            {"name": "Nasturtium", "reason": "trap crop for aphids"},
+            {"name": "Chamomile", "reason": "improves brassica family growth"},
+        ],
+        "avoid": [
+            {"name": "Kale", "reason": "same family, share clubroot and cabbage moth"},
+            {"name": "Fennel", "reason": "allelopathic to brassica family"},
+        ],
     },
     {
         "name": "Onion",
@@ -235,6 +419,17 @@ PLANTS = [
         "notes": "Start indoors 10-12 weeks before last frost or plant sets in early spring. Long-day varieties best at NM elevations above 5000ft.",
         "direct_sow": False,
         "weeks_before_frost": 10,
+        "companions": [
+            {"name": "Carrot", "reason": "onion scent deters carrot fly, carrot deters onion fly"},
+            {"name": "Chamomile", "reason": "said to enhance onion flavor and vigor"},
+            {"name": "Beet", "reason": "compatible growth, mutual pest deterrence"},
+            {"name": "Tomato", "reason": "onion deters spider mites on tomato"},
+        ],
+        "avoid": [
+            {"name": "Pinto Bean", "reason": "onion inhibits bean germination and growth"},
+            {"name": "Snap Pea", "reason": "alliums stunt pea growth"},
+            {"name": "Black Bean", "reason": "onion exudates inhibit all legumes"},
+        ],
     },
     {
         "name": "Leek",
@@ -246,6 +441,15 @@ PLANTS = [
         "notes": "Start indoors 10-12 weeks before last frost. Transplant as pencil-thin seedlings. Tolerates frost well - good for NM fall gardens.",
         "direct_sow": False,
         "weeks_before_frost": 12,
+        "companions": [
+            {"name": "Carrot", "reason": "leek deters carrot fly, carrot deters leek moth"},
+            {"name": "Chamomile", "reason": "improves leek vigor"},
+            {"name": "Beet", "reason": "compatible companions with similar needs"},
+        ],
+        "avoid": [
+            {"name": "Pinto Bean", "reason": "alliums inhibit legume nitrogen fixation"},
+            {"name": "Snap Pea", "reason": "leek stunts pea growth"},
+        ],
     },
     {
         "name": "Snap Pea",
@@ -258,6 +462,17 @@ PLANTS = [
         "direct_sow": True,
         "weeks_before_frost": 0,
         "cool_season": True,
+        "companions": [
+            {"name": "Carrot", "reason": "peas fix nitrogen that feeds carrots"},
+            {"name": "Radish", "reason": "radish loosens soil and deters pests"},
+            {"name": "Turnip", "reason": "cool season companions with mutual benefit"},
+            {"name": "Chamomile", "reason": "attracts beneficial insects"},
+        ],
+        "avoid": [
+            {"name": "Onion", "reason": "alliums inhibit pea growth and root nodules"},
+            {"name": "Garlic", "reason": "stunts pea growth and nitrogen fixation"},
+            {"name": "Fennel", "reason": "allelopathic to peas"},
+        ],
     },
     {
         "name": "Black Bean",
@@ -269,6 +484,16 @@ PLANTS = [
         "notes": "Heat tolerant. Direct sow after last frost. Excellent dry bean for high desert storage. Traditional crop in the SW.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Corn (Heirloom Blue)", "reason": "Three Sisters - corn provides support"},
+            {"name": "Squash (Cushaw)", "reason": "Three Sisters - squash shades soil"},
+            {"name": "Desert Marigold", "reason": "deters bean beetles"},
+            {"name": "Epazote", "reason": "traditional bean companion, repels beetles"},
+        ],
+        "avoid": [
+            {"name": "Onion", "reason": "alliums inhibit bean root nodules"},
+            {"name": "Garlic", "reason": "inhibits legume nitrogen fixation"},
+        ],
     },
     {
         "name": "Swiss Chard",
@@ -280,6 +505,15 @@ PLANTS = [
         "notes": "Handles NM summer heat better than most greens. Direct sow after last frost. Cut outer leaves to keep producing all season.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Pinto Bean", "reason": "beans fix nitrogen that benefits chard"},
+            {"name": "Onion", "reason": "deters leafminers that attack chard"},
+            {"name": "Nasturtium", "reason": "trap crop for aphids"},
+            {"name": "Chamomile", "reason": "dynamic accumulator, improves soil"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic, inhibits chard growth"},
+        ],
     },
     {
         "name": "Spinach",
@@ -292,6 +526,14 @@ PLANTS = [
         "direct_sow": True,
         "weeks_before_frost": 0,
         "cool_season": True,
+        "companions": [
+            {"name": "Strawberry", "reason": "spinach provides ground cover, both cool season"},
+            {"name": "Snap Pea", "reason": "peas fix nitrogen, provide light shade for spinach"},
+            {"name": "Radish", "reason": "loosens soil, compatible timing"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to spinach"},
+        ],
     },
     {
         "name": "Arugula",
@@ -304,6 +546,15 @@ PLANTS = [
         "direct_sow": True,
         "weeks_before_frost": 0,
         "cool_season": True,
+        "companions": [
+            {"name": "Tomato", "reason": "tomato canopy provides beneficial shade"},
+            {"name": "Snap Pea", "reason": "peas fix nitrogen, cool season timing matches"},
+            {"name": "Nasturtium", "reason": "trap crop for aphids that target arugula"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to arugula"},
+            {"name": "Kale", "reason": "same family, share flea beetles and cabbage pests"},
+        ],
     },
     {
         "name": "Cucumber",
@@ -315,6 +566,17 @@ PLANTS = [
         "notes": "Warm season. Direct sow after last frost. Thrives in NM heat with consistent watering. Trellis to save space and improve airflow.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Radish", "reason": "deters cucumber beetles"},
+            {"name": "Desert Marigold", "reason": "deters beetles and nematodes in soil"},
+            {"name": "Pinto Bean", "reason": "beans fix nitrogen, compatible growth"},
+            {"name": "Sunflower", "reason": "sunflower shade reduces cucumber heat stress"},
+        ],
+        "avoid": [
+            {"name": "Sage", "reason": "sage inhibits cucumber growth"},
+            {"name": "Potato", "reason": "share blight and beetle pests"},
+            {"name": "Fennel", "reason": "allelopathic to cucumber family"},
+        ],
     },
     {
         "name": "Radish",
@@ -327,6 +589,16 @@ PLANTS = [
         "direct_sow": True,
         "weeks_before_frost": 0,
         "cool_season": True,
+        "companions": [
+            {"name": "Cucumber", "reason": "radish deters cucumber beetles effectively"},
+            {"name": "Carrot", "reason": "loosens soil for carrots, compatible timing"},
+            {"name": "Snap Pea", "reason": "compatible cool season companions"},
+            {"name": "Nasturtium", "reason": "trap crop pairing for aphids"},
+        ],
+        "avoid": [
+            {"name": "Hyssop", "reason": "hyssop exudates inhibit radish germination"},
+            {"name": "Fennel", "reason": "allelopathic to radish"},
+        ],
     },
 
     # --- FRUITS (additional) ---
@@ -340,6 +612,16 @@ PLANTS = [
         "notes": "Plant bare root canes in early spring. In NM, partial afternoon shade protects from intense sun. Mulch heavily to retain moisture.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Yarrow", "reason": "attracts beneficial predatory insects"},
+            {"name": "Chamomile", "reason": "dynamic accumulator, improves soil around canes"},
+            {"name": "Desert Marigold", "reason": "deters pests at garden border"},
+        ],
+        "avoid": [
+            {"name": "Tomato", "reason": "shares verticillium wilt pathogen in soil"},
+            {"name": "Potato", "reason": "shares blight and verticillium wilt"},
+            {"name": "Fennel", "reason": "allelopathic to raspberry canes"},
+        ],
     },
     {
         "name": "Strawberry",
@@ -351,6 +633,16 @@ PLANTS = [
         "notes": "Plant crowns in early spring. June-bearing varieties best for NM. Mulch to retain moisture. Everbearing types struggle in high desert heat.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Spinach", "reason": "cool season ground cover, compatible timing"},
+            {"name": "Chamomile", "reason": "attracts pollinators, improves strawberry flavor"},
+            {"name": "Yarrow", "reason": "attracts beneficial insects for pollination"},
+        ],
+        "avoid": [
+            {"name": "Kale", "reason": "brassicas inhibit strawberry growth"},
+            {"name": "Fennel", "reason": "allelopathic to strawberry"},
+            {"name": "Tomato", "reason": "shares botrytis and verticillium diseases"},
+        ],
     },
     {
         "name": "Watermelon",
@@ -362,6 +654,16 @@ PLANTS = [
         "notes": "NM-grown watermelons are exceptional. Start indoors 3-4 weeks before last frost for zone 6b. Needs long warm season and consistent water.",
         "direct_sow": False,
         "weeks_before_frost": 4,
+        "companions": [
+            {"name": "Nasturtium", "reason": "deters aphids and squash bugs"},
+            {"name": "Desert Marigold", "reason": "deters nematodes and beetles in soil"},
+            {"name": "Corn (Heirloom Blue)", "reason": "provides windbreak for sprawling vines"},
+            {"name": "Radish", "reason": "deters cucumber beetles that attack watermelon"},
+        ],
+        "avoid": [
+            {"name": "Potato", "reason": "shared diseases and space competition"},
+            {"name": "Fennel", "reason": "allelopathic to cucurbit family"},
+        ],
     },
     {
         "name": "Cantaloupe",
@@ -373,6 +675,15 @@ PLANTS = [
         "notes": "NM is renowned for its cantaloupes (especially Pecos Valley). Direct sow after last frost. Reduce water as fruit ripens to concentrate sweetness.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Desert Marigold", "reason": "deters beetles and nematodes"},
+            {"name": "Nasturtium", "reason": "trap crop for aphids and cucumber beetles"},
+            {"name": "Sunflower", "reason": "attracts pollinators for melon fruit set"},
+        ],
+        "avoid": [
+            {"name": "Potato", "reason": "shared disease susceptibility"},
+            {"name": "Fennel", "reason": "allelopathic to melon family"},
+        ],
     },
     {
         "name": "Apple",
@@ -384,6 +695,16 @@ PLANTS = [
         "notes": "Plant bare root in early spring. NM orchards thrive at 5000-7000ft elevation. Need two varieties for cross-pollination. Protect blossoms from late frosts.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Chamomile", "reason": "dynamic accumulator, improves soil under canopy"},
+            {"name": "Yarrow", "reason": "attracts beneficial predatory insects"},
+            {"name": "Nasturtium", "reason": "trap crop for woolly aphids on apple"},
+            {"name": "Lavender", "reason": "deters codling moth and attracts pollinators"},
+        ],
+        "avoid": [
+            {"name": "Potato", "reason": "potato blight can spread to apple fire blight"},
+            {"name": "Fennel", "reason": "allelopathic to apple root zone"},
+        ],
     },
     {
         "name": "Fig",
@@ -395,6 +716,14 @@ PLANTS = [
         "notes": "Hardy in southern NM. In zone 6b, grow in container or against a south-facing wall. May die back in hard winters but resprouts from roots.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Chamomile", "reason": "dynamic accumulator under fig canopy"},
+            {"name": "Desert Marigold", "reason": "deters soil pests around fig roots"},
+            {"name": "Lavender", "reason": "same drought-tolerant conditions, deters pests"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic compounds affect fig roots"},
+        ],
     },
     {
         "name": "Pomegranate",
@@ -406,6 +735,15 @@ PLANTS = [
         "notes": "Very drought tolerant once established. Thrives in southern NM heat and alkaline soil. Protect from hard freezes below 15F.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Lavender", "reason": "same alkaline, drought-tolerant conditions"},
+            {"name": "Desert Marigold", "reason": "native companion, deters pests at base"},
+            {"name": "Yarrow", "reason": "attracts beneficial insects for pollination"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to pomegranate root zone"},
+            {"name": "Watermelon", "reason": "irrigation levels incompatible with pomegranate drought preference"},
+        ],
     },
 
     # --- FLOWERS (additional) ---
@@ -419,6 +757,15 @@ PLANTS = [
         "notes": "Direct sow in spring or fall. Self-seeds prolifically. Edible flowers used for tea. German chamomile is annual; Roman is perennial.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Onion", "reason": "enhances onion flavor and growth"},
+            {"name": "Garlic", "reason": "said to improve garlic flavor"},
+            {"name": "Kale", "reason": "improves brassica vigor as a dynamic accumulator"},
+            {"name": "Carrot", "reason": "attracts beneficial hoverflies"},
+        ],
+        "avoid": [
+            {"name": "Mint", "reason": "mint is invasive and will outcompete chamomile"},
+        ],
     },
     {
         "name": "Lavender",
@@ -430,6 +777,16 @@ PLANTS = [
         "notes": "Thrives in NM alkaline, well-draining soil. Plant after last frost. Spanish lavender (L. stoechas) hardy to zone 6b. Avoid clay soils and overwatering.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Yarrow", "reason": "same low-water conditions, attract same pollinators"},
+            {"name": "Echinacea", "reason": "drought-tolerant companions with complementary bloom times"},
+            {"name": "Apple", "reason": "deters codling moth, attracts pollinators to orchard"},
+            {"name": "Pomegranate", "reason": "same alkaline, drought-tolerant conditions"},
+        ],
+        "avoid": [
+            {"name": "Mint", "reason": "mint requires much more water and will outcompete lavender"},
+            {"name": "Spinach", "reason": "incompatible water and soil needs"},
+        ],
     },
     {
         "name": "Echinacea",
@@ -441,6 +798,14 @@ PLANTS = [
         "notes": "Very drought tolerant. Start indoors 8 weeks before last frost. Blooms year 2 from seed. E. angustifolia is the native prairie medicinal species.",
         "direct_sow": False,
         "weeks_before_frost": 8,
+        "companions": [
+            {"name": "Black-Eyed Susan", "reason": "native prairie companions, bloom together"},
+            {"name": "Yarrow", "reason": "attracts same predatory and pollinator insects"},
+            {"name": "Lavender", "reason": "drought-tolerant companions with complementary bloom"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to echinacea"},
+        ],
     },
     {
         "name": "Black-Eyed Susan",
@@ -452,6 +817,14 @@ PLANTS = [
         "notes": "Direct sow in spring. Drought tolerant once established. Self-seeds readily. Attracts pollinators throughout summer.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Echinacea", "reason": "native prairie companions that bloom together"},
+            {"name": "Yarrow", "reason": "attracts same beneficial insects and pollinators"},
+            {"name": "Cosmos", "reason": "compatible annuals that fill gaps in bloom cycle"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to black-eyed susan"},
+        ],
     },
     {
         "name": "Yarrow",
@@ -463,6 +836,15 @@ PLANTS = [
         "notes": "Native across all of North America including NM. Extremely drought tolerant. Spreads by rhizome - give it space. Excellent pollinator plant.",
         "direct_sow": False,
         "weeks_before_frost": 8,
+        "companions": [
+            {"name": "Echinacea", "reason": "attracts same beneficial insects"},
+            {"name": "Lavender", "reason": "low-water companions that share beneficial insect habitat"},
+            {"name": "Apple", "reason": "attracts predatory insects that control apple pests"},
+            {"name": "Garlic", "reason": "combined insect-attracting and repelling effect"},
+        ],
+        "avoid": [
+            {"name": "Mint", "reason": "mint is invasive and will crowd out yarrow"},
+        ],
     },
     {
         "name": "Globe Mallow",
@@ -474,6 +856,15 @@ PLANTS = [
         "notes": "One of the most drought-tolerant flowering plants for NM. Orange blooms spring through fall. Direct sow in fall for natural cold stratification.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Desert Marigold", "reason": "native companions with identical water needs"},
+            {"name": "Apache Plume", "reason": "shares native xeric habitat"},
+            {"name": "Prickly Pear Cactus", "reason": "compatible desert habitat companions"},
+        ],
+        "avoid": [
+            {"name": "Watermelon", "reason": "irrigation levels incompatible with globe mallow"},
+            {"name": "Cucumber", "reason": "cucumber water needs will cause root rot in globe mallow"},
+        ],
     },
     {
         "name": "Clarkia",
@@ -485,6 +876,15 @@ PLANTS = [
         "notes": "Cool season annual. Direct sow in fall or early spring in NM. Does well in partial shade in high desert. Showy blooms before summer heat arrives.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Snap Pea", "reason": "cool season companions that overlap in timing"},
+            {"name": "Chamomile", "reason": "compatible cool season annuals"},
+            {"name": "Spinach", "reason": "cool season companions sharing partial shade"},
+        ],
+        "avoid": [
+            {"name": "Zinnia", "reason": "clarkia dies back before zinnia thrives - timing conflict"},
+            {"name": "Fennel", "reason": "allelopathic to clarkia"},
+        ],
     },
     {
         "name": "Cosmos",
@@ -496,6 +896,14 @@ PLANTS = [
         "notes": "Direct sow after last frost. Thrives on neglect - too much water reduces blooms. Self-seeds readily. Excellent in NM summer heat.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Tomato", "reason": "attracts beneficial hoverflies and wasps"},
+            {"name": "Corn (Heirloom Blue)", "reason": "fills base space, attracts pollinators"},
+            {"name": "Black-Eyed Susan", "reason": "compatible warm season annuals that attract same insects"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to cosmos"},
+        ],
     },
     {
         "name": "Hollyhock",
@@ -507,6 +915,15 @@ PLANTS = [
         "notes": "Classic NM cottage garden plant. Biennial - blooms year 2. Drought tolerant once established. Self-seeds prolifically along walls and fences.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Sunflower", "reason": "tall companions that share wind and visual structure"},
+            {"name": "Desert Marigold", "reason": "deters pests at base of hollyhock"},
+            {"name": "Yarrow", "reason": "attracts beneficial insects to the bed"},
+        ],
+        "avoid": [
+            {"name": "Tomato", "reason": "hollyhock can harbor rust that spreads to nightshades"},
+            {"name": "Green Chile Pepper", "reason": "hollyhock rust risk to pepper plants"},
+        ],
     },
     {
         "name": "Four O'Clock",
@@ -518,6 +935,14 @@ PLANTS = [
         "notes": "Mirabilis multiflora (Desert Four O'Clock) is native to NM. Tuberous root survives drought. Direct sow after last frost. Magenta blooms attract moths.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Corn (Heirloom Blue)", "reason": "trap crop for Japanese beetle larvae near corn"},
+            {"name": "Desert Marigold", "reason": "native companions with compatible water needs"},
+            {"name": "Globe Mallow", "reason": "shares native xeric SW habitat"},
+        ],
+        "avoid": [
+            {"name": "Edibles (general)", "reason": "all parts of four o'clock are toxic - keep away from food garden areas"},
+        ],
     },
 
     # --- HERBS ---
@@ -531,6 +956,16 @@ PLANTS = [
         "notes": "Cool season only - bolts quickly in NM heat. Succession sow every 2-3 weeks in spring and fall. Let bolt for coriander seed harvest.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Spinach", "reason": "cool season companions with similar needs"},
+            {"name": "Snap Pea", "reason": "cool season timing match, peas fix nitrogen"},
+            {"name": "Tomato", "reason": "bolted cilantro attracts beneficial wasps and hoverflies"},
+            {"name": "Carrot", "reason": "same family when bolted, attracts same beneficial insects"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "fennel inhibits cilantro and they cross-pollinate"},
+            {"name": "Lavender", "reason": "incompatible water needs, lavender dries out too fast"},
+        ],
     },
     {
         "name": "Epazote",
@@ -542,6 +977,15 @@ PLANTS = [
         "notes": "Traditional NM/Mexican herb used with beans. Extremely heat and drought tolerant. Direct sow after last frost. Self-seeds aggressively.",
         "direct_sow": True,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Pinto Bean", "reason": "traditional companion - repels bean beetles, aids digestion"},
+            {"name": "Black Bean", "reason": "traditional bean companion across SW and Mesoamerica"},
+            {"name": "Corn (Heirloom Blue)", "reason": "companion in traditional Three Sisters + epazote plots"},
+            {"name": "Green Chile Pepper", "reason": "traditional NM kitchen garden pairing"},
+        ],
+        "avoid": [
+            {"name": "Snap Pea", "reason": "epazote can inhibit legumes other than dry beans"},
+        ],
     },
     {
         "name": "Mexican Oregano",
@@ -553,6 +997,14 @@ PLANTS = [
         "notes": "Not related to Mediterranean oregano. Stronger, more citrusy flavor - core herb in NM cuisine. Hardy perennial shrub. Grow in container in zone 6b.",
         "direct_sow": False,
         "weeks_before_frost": 0,
+        "companions": [
+            {"name": "Green Chile Pepper", "reason": "enhances pepper flavor, deters aphids"},
+            {"name": "Tomato", "reason": "deters spider mites, compatible water needs when established"},
+            {"name": "Pinto Bean", "reason": "traditional NM garden pairing, repels bean pests"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic to oregano, cross-flavor contamination"},
+        ],
     },
     {
         "name": "Culantro",
@@ -564,6 +1016,14 @@ PLANTS = [
         "notes": "Tropical herb with bold cilantro flavor that doesn't bolt in heat - excellent NM summer alternative to cilantro. Needs partial shade. Start indoors 6-8 weeks before last frost.",
         "direct_sow": False,
         "weeks_before_frost": 8,
+        "companions": [
+            {"name": "Tomato", "reason": "tomato canopy provides partial shade culantro needs"},
+            {"name": "Pinto Bean", "reason": "similar to cilantro, attracts same beneficial insects"},
+            {"name": "Swiss Chard", "reason": "compatible water needs, both enjoy partial shade"},
+        ],
+        "avoid": [
+            {"name": "Fennel", "reason": "allelopathic and cross-contaminates flavor"},
+        ],
     },
     {
         "name": "Hyssop",
@@ -575,6 +1035,15 @@ PLANTS = [
         "notes": "Agastache (hummingbird mint) species are native to NM and extremely drought tolerant. Attracts hummingbirds and pollinators. Start indoors 8 weeks before last frost.",
         "direct_sow": False,
         "weeks_before_frost": 8,
+        "companions": [
+            {"name": "Grape", "reason": "traditional companion said to improve grape flavor and vigor"},
+            {"name": "Yarrow", "reason": "low-water companions that share hummingbird and pollinator habitat"},
+            {"name": "Echinacea", "reason": "compatible drought-tolerant perennials"},
+        ],
+        "avoid": [
+            {"name": "Radish", "reason": "hyssop exudates inhibit radish germination"},
+            {"name": "Fennel", "reason": "allelopathic to hyssop"},
+        ],
     },
 ]
 

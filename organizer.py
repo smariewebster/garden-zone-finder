@@ -41,6 +41,8 @@ def organize_tips(scraped_data, plant_list):
             "days_to_maturity": plant["days_to_maturity"],
             "direct_sow": plant["direct_sow"],
             "notes": plant["notes"],
+            "companions": plant.get("companions", []),
+            "avoid": plant.get("avoid", []),
             "tips": all_tips[:8],  # Cap at 8 tips per plant
             "sources": source_urls,
         })
@@ -84,6 +86,18 @@ def format_for_display(organized, zone, city, state, last_frost, first_frost):
             lines.append(f"  Days to mature : {plant['days_to_maturity']}")
             lines.append(f"  Direct sow     : {'Yes' if plant['direct_sow'] else 'No - start indoors'}")
             lines.append(f"  Notes          : {plant['notes']}")
+
+            if plant.get("companions"):
+                companions_str = ", ".join(
+                    f"{c['name']} ({c['reason']})" for c in plant["companions"]
+                )
+                lines.append(f"  Companions     : {companions_str}")
+
+            if plant.get("avoid"):
+                avoid_str = ", ".join(
+                    f"{a['name']} ({a['reason']})" for a in plant["avoid"]
+                )
+                lines.append(f"  Avoid          : {avoid_str}")
 
             if plant["tips"]:
                 lines.append("  Scraped tips:")
