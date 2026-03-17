@@ -4,6 +4,7 @@ from zone_lookup import lookup
 from plants import get_plants_for_zone
 from scraper import scrape_all_plants
 from organizer import organize_tips, format_for_display
+from planting_calendar import build_full_calendar, format_calendar
 
 console = Console()
 
@@ -90,6 +91,29 @@ def main():
     # Step 5 - Optional save
     if ask_yes_no("\nSave report to a text file?"):
         save_output(output, zipcode)
+
+    # Step 6 - Optional planting calendar
+    if ask_yes_no("\nWould you like to see a week-by-week planting calendar?"):
+        calendar = build_full_calendar(
+            plant_list,
+            location["last_spring_frost"],
+            location["first_fall_frost"],
+        )
+        cal_output = format_calendar(
+            calendar,
+            location["city"],
+            location["state"],
+            location["zone"],
+            location["last_spring_frost"],
+            location["first_fall_frost"],
+        )
+        print(cal_output)
+
+        if ask_yes_no("\nSave planting calendar to a text file?"):
+            filename = f"planting_calendar_{zipcode}.txt"
+            with open(filename, "w") as f:
+                f.write(cal_output)
+            console.print(f"\n[green]Calendar saved to {filename}[/green]")
 
 if __name__ == "__main__":
     main()
