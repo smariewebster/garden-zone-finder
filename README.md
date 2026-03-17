@@ -1,24 +1,32 @@
 # Garden Zone Finder
 
-A Python CLI tool that helps gardeners find what grows in their USDA hardiness zone, with tips scraped live from gardening websites.
+A Python CLI tool that helps gardeners find what grows in their USDA hardiness zone — with live web tips, a week-by-week planting calendar, companion planting guidance, and frost warnings.
 
 Built for zone 6b (Santa Fe, NM) but works for any US zip code.
 
+---
+
 ## Features
 
-- Zip code → USDA growing zone lookup
-- Last spring frost / first fall frost dates
-- Plant database with native Southwest species flagged
-- Water needs, days to maturity, direct sow vs. transplant info
-- Live web scraping of gardening sites for zone-specific tips
-- Optional report saved to .txt file
+- **Zip code → USDA zone lookup** — instant hardiness zone from any 5-digit US zip
+- **Frost date calculation** — last spring frost and first fall frost dates per location
+- **50-plant database** — vegetables, fruits, flowers, and herbs suited for zones 5a–9b
+- **Region-aware native tagging** — plants flagged `[NATIVE]` based on your specific US region (Southwest, Great Plains, Northeast, Southeast, Midwest, Northwest, California)
+- **Live web scraping** — pulls zone-specific growing tips from major gardening sites
+- **Week-by-week planting calendar** — action dates with frost risk warnings built in
+- **Dual schedule option** — for plants that can be started indoors or direct sown, shows both paths with tradeoffs so you can choose per plant
+- **Companion planting guidance** — companions and avoid lists with reasons for every plant
+- **Save to .txt** — export plant report and/or planting calendar to a text file
+
+---
 
 ## Installation
 
 **Requirements:** Python 3.9+
+
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/garden-zone-finder.git
+git clone https://github.com/smariewebster/garden-zone-finder.git
 cd garden-zone-finder
 
 # Create and activate virtual environment
@@ -29,54 +37,97 @@ source venv/bin/activate  # Mac/Linux
 pip install -r requirements.txt
 ```
 
+---
+
 ## Usage
+
 ```bash
 python3 main.py
 ```
 
 You will be prompted to:
+
 1. Enter your zip code
-2. Choose whether to scrape live tips (takes ~2 min)
-3. Optionally save the report to a .txt file
+2. View your USDA zone and frost dates
+3. Choose whether to scrape live tips from the web (~2 min)
+4. View your plant report (with companion planting info)
+5. Optionally save the report to a `.txt` file
+6. Optionally generate a week-by-week planting calendar
+   - For plants that can be started indoors or direct sown, you'll choose a method per plant
+7. Optionally save the calendar to a `.txt` file
+
+---
 
 ## Plant Database
 
-Currently includes plants suited for zones 5a-9b across three categories:
+50 plants across four categories:
 
-| Category | Count |
-|----------|-------|
-| Vegetables | 8 |
-| Fruits | 3 |
-| Flowers | 5 |
+| Category   | Count |
+|------------|-------|
+| Vegetables | 20    |
+| Fruits     | 10    |
+| Flowers    | 15    |
+| Herbs      | 5     |
+| **Total**  | **50**|
 
-Native Southwest species are flagged with `[NATIVE]` in the output.
+Each plant includes:
+- Water needs and days to maturity
+- Direct sow vs. start indoors recommendation
+- `weeks_before_frost` for indoor start timing
+- `cool_season` flag for pre-frost direct sow crops (carrots, peas, beets, etc.)
+- Native region tags (7 US regions)
+- Companion planting suggestions and plants to avoid
+- Planting notes
+
+Native Southwest species include Green Chile Pepper, Pinto Bean, Epazote, Desert Willow, Four O'Clock, and more.
+
+---
 
 ## Data Sources
 
-- USDA Plant Hardiness Zone Map via [phzmapi.org](https://phzmapi.org)
-- Location data via pgeocode
-- Growing tips scraped from:
+- **USDA zone data** — [phzmapi.org](https://phzmapi.org) (zip-keyed S3 bucket)
+- **Location data** — pgeocode (zip → city, state, lat/lng)
+- **Growing tips scraped from:**
   - Old Farmer's Almanac
   - NMSU Extension (nmsu.edu)
   - High Country Gardens
   - Gardening Know How
   - Planet Natural
 
+---
+
 ## Project Structure
+
 ```
 garden-zone-finder/
-├── main.py           # CLI entry point
-├── zone_lookup.py    # Zip → zone + frost dates
-├── plants.py         # Plant database
-├── scraper.py        # Web scraping logic
-├── organizer.py      # Tip organization + formatting
-├── requirements.txt  # Dependencies
+├── main.py               # CLI entry point
+├── zone_lookup.py        # Zip → zone + frost dates
+├── plants.py             # 50-plant database with companion data
+├── scraper.py            # DuckDuckGo + BeautifulSoup web scraping
+├── organizer.py          # Tip organization + report formatting
+├── planting_calendar.py  # Week-by-week calendar with dual schedule support
+├── requirements.txt      # Dependencies
 └── README.md
 ```
 
+---
+
+## Screenshots
+
+Coming soon.
+
+---
+
 ## Contributing
 
-Plant database contributions welcome - especially additional native Southwest species. Open a PR or file an issue.
+Plant database contributions welcome — especially:
+- Additional native Southwest species
+- Plants for zones outside 5a–9b
+- Corrections to companion planting data
+
+Open a PR or file an issue on GitHub.
+
+---
 
 ## License
 
