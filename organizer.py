@@ -36,7 +36,7 @@ def organize_tips(scraped_data, plant_list):
 
         organized[category].append({
             "name": plant_name,
-            "native": plant["native"],
+            "native_regions": plant["native_regions"],
             "water": plant["water"],
             "days_to_maturity": plant["days_to_maturity"],
             "direct_sow": plant["direct_sow"],
@@ -62,11 +62,12 @@ def format_for_display(organized, zone, city, state, last_frost, first_frost):
     lines.append(f"First fall frost  : {first_frost}")
     lines.append("=" * 60)
 
-    category_order = ["vegetable", "fruit", "flower"]
+    category_order = ["vegetable", "fruit", "flower", "herb"]
     category_labels = {
         "vegetable": "VEGETABLES",
         "fruit": "FRUITS",
         "flower": "FLOWERS",
+        "herb": "HERBS",
     }
 
     for category in category_order:
@@ -77,7 +78,7 @@ def format_for_display(organized, zone, city, state, last_frost, first_frost):
         lines.append(f"\n--- {category_labels[category]} ---")
 
         for plant in plants:
-            native_tag = " [NATIVE]" if plant["native"] else ""
+            native_tag = " [NATIVE]" if plant["native_regions"] else ""
             lines.append(f"\n{plant['name']}{native_tag}")
             lines.append(f"  Water needs    : {plant['water']}")
             lines.append(f"  Days to mature : {plant['days_to_maturity']}")
