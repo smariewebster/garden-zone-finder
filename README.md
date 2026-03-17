@@ -114,7 +114,14 @@ garden-zone-finder/
 
 ## Screenshots
 
-Coming soon.
+![Zone lookup output showing location, USDA zone, and frost dates](screenshots/zone-lookup.png)
+*Zip code → zone lookup with last spring frost and first fall frost dates*
+
+![Plant report showing water needs, companions, and scraped tips](screenshots/plant-report.png)
+*Plant report with companion planting guidance and live-scraped growing tips*
+
+![Week-by-week planting calendar with frost warnings](screenshots/planting-calendar.png)
+*Week-by-week planting calendar with indoor vs. direct sow options and frost risk warnings*
 
 ---
 
