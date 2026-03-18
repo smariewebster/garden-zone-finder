@@ -20,6 +20,16 @@ Built for zone 6b (Santa Fe, NM) but works for any US zip code.
 
 ---
 
+## USDA Hardiness Zone Map
+
+Plant zones are based on the official USDA Plant Hardiness Zone Map.
+
+[View the official interactive map →](https://planthardiness.ars.usda.gov/)
+
+Santa Fe, NM falls in Zone 6b (average annual minimum temperature -5°F to 0°F).
+
+---
+
 ## Installation
 
 **Requirements:** Python 3.9+
