@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Stem -->
+  <path d="M16 28 Q16 18 16 12" stroke="#556b57" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- Left leaf -->
+  <path d="M16 18 Q10 14 8 8 Q14 10 16 15" fill="#556b57"/>
+  <!-- Right leaf -->
+  <path d="M16 14 Q22 10 24 4 Q18 7 16 12" fill="#556b57"/>
+</svg>
