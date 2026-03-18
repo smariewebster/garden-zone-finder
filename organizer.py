@@ -36,6 +36,7 @@ def organize_tips(scraped_data, plant_list):
 
         organized[category].append({
             "name": plant_name,
+            "is_native": plant.get("is_native", False),
             "native_regions": plant["native_regions"],
             "water": plant["water"],
             "days_to_maturity": plant["days_to_maturity"],
