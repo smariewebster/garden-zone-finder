@@ -1,10 +1,12 @@
 # Garden Zone Finder
 
-A Python CLI tool that helps gardeners find what grows in their USDA hardiness zone — with live web tips, a week-by-week planting calendar, companion planting guidance, and frost warnings.
+[![Live Demo](https://img.shields.io/badge/live-demo-green)](https://garden-zone-finder.onrender.com)
+
+A web app (and CLI tool) that helps gardeners find what grows in their USDA hardiness zone — with a generative watercolor landing page, tabbed plant report, companion planting guidance, week-by-week planting calendar, and optional live-scraped growing tips.
+
+**[→ Try it live at garden-zone-finder.onrender.com](https://garden-zone-finder.onrender.com)**
 
 Built for zone 6b (Santa Fe, NM) but works for any US zip code.
-
-**[Live demo →](https://garden-zone-finder.onrender.com/)**
 
 ---
 
@@ -14,11 +16,11 @@ Built for zone 6b (Santa Fe, NM) but works for any US zip code.
 - **Frost date calculation** — last spring frost and first fall frost dates per location
 - **50-plant database** — vegetables, fruits, flowers, and herbs suited for zones 5a–9b
 - **Region-aware native tagging** — plants flagged `[NATIVE]` based on your specific US region (Southwest, Great Plains, Northeast, Southeast, Midwest, Northwest, California)
-- **Live web scraping** — pulls zone-specific growing tips from major gardening sites
+- **Live web scraping** — optional zone-specific growing tips pulled from major gardening sites
 - **Week-by-week planting calendar** — action dates with frost risk warnings built in
 - **Dual schedule option** — for plants that can be started indoors or direct sown, shows both paths with tradeoffs so you can choose per plant
 - **Companion planting guidance** — companions and avoid lists with reasons for every plant
-- **Save to .txt** — export plant report and/or planting calendar to a text file
+- **Save to .txt** — export plant report and/or planting calendar to a text file (CLI)
 
 ---
 
@@ -49,9 +51,15 @@ source venv/bin/activate  # Mac/Linux
 pip install -r requirements.txt
 ```
 
----
+### Run the web app
 
-## Usage
+```bash
+python3 app.py
+```
+
+Then open `http://localhost:5000` in your browser.
+
+### Run the CLI
 
 ```bash
 python3 main.py
@@ -112,12 +120,18 @@ Native Southwest species include Green Chile Pepper, Pinto Bean, Epazote, Desert
 
 ```
 garden-zone-finder/
+├── app.py                # Flask web app entry point
 ├── main.py               # CLI entry point
 ├── zone_lookup.py        # Zip → zone + frost dates
 ├── plants.py             # 50-plant database with companion data
 ├── scraper.py            # DuckDuckGo + BeautifulSoup web scraping
 ├── organizer.py          # Tip organization + report formatting
 ├── planting_calendar.py  # Week-by-week calendar with dual schedule support
+├── templates/            # Flask HTML templates
+│   ├── index.html        # Watercolor landing page
+│   ├── report.html       # Tabbed plant report
+│   └── calendar.html     # Planting calendar
+├── static/               # Static assets (favicon)
 ├── requirements.txt      # Dependencies
 └── README.md
 ```
@@ -126,8 +140,7 @@ garden-zone-finder/
 
 ## Screenshots
 
-![Zone lookup output showing location, USDA zone, and frost dates](screenshots/zone-lookup.png)
-*Zip code → zone lookup with last spring frost and first fall frost dates*
+*Screenshot coming soon*
 
 ![Plant report showing water needs, companions, and scraped tips](screenshots/plant-report.png)
 *Plant report with companion planting guidance and live-scraped growing tips*
@@ -145,6 +158,17 @@ Plant database contributions welcome — especially:
 - Corrections to companion planting data
 
 Open a PR or file an issue on GitHub.
+
+---
+
+## Built With
+
+- [Python 3.9](https://www.python.org/)
+- [Flask](https://flask.palletsprojects.com/)
+- [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/)
+- [pgeocode](https://pgeocode.readthedocs.io/)
+- [Render](https://render.com) — hosting
+- Vanilla JS — no frontend frameworks
 
 ---
 
