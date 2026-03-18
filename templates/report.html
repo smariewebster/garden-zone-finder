@@ -109,6 +109,129 @@
             margin-right: 24px;
         }
 
+        /* ── Scrape bar ── */
+        .scrape-bar {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .scrape-btn {
+            background: rgba(85, 107, 87, 0.08);
+            border: 1px solid rgba(85, 107, 87, 0.3);
+            border-radius: 2px;
+            padding: 7px 16px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.82rem;
+            color: var(--ink-green);
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: background 0.15s, border-color 0.15s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .scrape-btn:hover {
+            background: rgba(85, 107, 87, 0.16);
+            border-color: rgba(85, 107, 87, 0.5);
+        }
+
+        .scrape-btn.active {
+            background: rgba(85, 107, 87, 0.14);
+            color: var(--ink-green);
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .scrape-note {
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--ink-dark);
+            opacity: 0.45;
+            letter-spacing: 0.02em;
+        }
+
+        /* ── Growing tips ── */
+        .tips-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-green);
+            opacity: 0.7;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: opacity 0.15s;
+        }
+
+        .tips-toggle:hover { opacity: 1; }
+
+        .tips-toggle-icon {
+            font-style: normal;
+            font-size: 0.9rem;
+            line-height: 1;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        .tips-toggle.open .tips-toggle-icon {
+            transform: rotate(45deg);
+        }
+
+        .tips-body {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--rule-color);
+        }
+
+        .tips-body.open { display: block; }
+
+        .tips-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tip-item {
+            font-size: 0.8rem;
+            font-style: italic;
+            line-height: 1.5;
+            color: var(--ink-dark);
+            opacity: 0.75;
+        }
+
+        .tip-source {
+            display: block;
+            font-size: 0.68rem;
+            font-style: normal;
+            opacity: 0.45;
+            margin-top: 2px;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tips-empty {
+            font-size: 0.78rem;
+            font-style: italic;
+            color: var(--ink-dark);
+            opacity: 0.4;
+            letter-spacing: 0.01em;
+        }
+
         /* ── Search ── */
         .search-wrap {
             margin-bottom: 28px;
@@ -205,7 +328,7 @@
             background: rgba(255, 255, 255, 0.38);
             border: 1px solid var(--rule-color);
             border-radius: 2px;
-            padding: 20px 22px;
+            padding: 20px 22px 42px;
         }
 
         .plant-name {
@@ -349,7 +472,7 @@
 
         .card-check-label {
             position: absolute;
-            top: 16px;
+            bottom: 16px;
             right: 16px;
             display: flex;
             align-items: center;
@@ -538,6 +661,16 @@
             </div>
         </header>
 
+        <!-- Scrape bar -->
+        <div class="scrape-bar">
+            {% if scraped %}
+                <span class="scrape-btn active">✓ Tips loaded</span>
+            {% else %}
+                <a class="scrape-btn" href="/report?zip={{ zipcode }}&scrape=true">Load tips from web</a>
+                <span class="scrape-note">this may take 2–3 minutes</span>
+            {% endif %}
+        </div>
+
         <!-- Search -->
         <div class="search-wrap">
             <input
@@ -646,6 +779,26 @@
                                 </ul>
                             </div>
                             {% endif %}
+
+                            <button class="tips-toggle" aria-expanded="false">
+                                <span class="tips-toggle-icon">+</span> Growing tips
+                            </button>
+                            <div class="tips-body">
+                                {% if plant.tips %}
+                                <ul class="tips-list">
+                                    {% for tip in plant.tips %}
+                                    <li class="tip-item">
+                                        {{ tip }}
+                                        {% if plant.sources and loop.index0 < plant.sources | length %}
+                                        <span class="tip-source">{{ plant.sources[loop.index0] }}</span>
+                                        {% endif %}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <p class="tips-empty">no tips found for this zone</p>
+                                {% endif %}
+                            </div>
                         </div>
                         {% endfor %}
                     </div>
@@ -726,6 +879,16 @@
 
         searchInput.addEventListener('input', function() {
             applySearch(searchInput.value);
+        });
+
+        // ── Tips expand/collapse ──────────────────────────────
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('.tips-toggle');
+            if (!btn) return;
+            var body = btn.nextElementSibling;
+            var open = btn.classList.toggle('open');
+            body.classList.toggle('open', open);
+            btn.setAttribute('aria-expanded', open);
         });
 
         // ── Checkboxes ────────────────────────────────────────
