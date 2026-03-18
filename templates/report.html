@@ -734,7 +734,7 @@
                             </label>
                             <h3 class="plant-name">
                                 {{ plant.name }}
-                                {% if plant.native_regions %}
+                                {% if plant.is_native %}
                                     <span class="native-tag">Native</span>
                                 {% endif %}
                             </h3>
