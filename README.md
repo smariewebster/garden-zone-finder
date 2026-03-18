@@ -140,12 +140,16 @@ garden-zone-finder/
 
 ## Screenshots
 
-*Screenshot coming soon*
+![Garden animation landing page](screenshots/landing-page.png)
+*Garden animation landing page*
 
-![Plant report showing water needs, companions, and scraped tips](screenshots/plant-report.png)
+![Tabbed plant report with search and companion planting](screenshots/report-page.png)
+*Tabbed plant report with search and companion planting*
+
+![Plant report with companion planting guidance and live-scraped growing tips](screenshots/plant-report.png)
 *Plant report with companion planting guidance and live-scraped growing tips*
 
-![Week-by-week planting calendar with frost warnings](screenshots/planting-calendar.png)
+![Week-by-week planting calendar with indoor vs. direct sow options and frost risk warnings](screenshots/planting-calendar.png)
 *Week-by-week planting calendar with indoor vs. direct sow options and frost risk warnings*
 
 ---
