@@ -210,9 +210,6 @@
         const COMPOSITE_FILTER = 'url(#watercolor) blur(0.5px)';
         const STAMEN_COLOR = {h: 45, s: 80, l: 55};
         const FLOWER_TYPE_COUNT = 6;
-        const VASE_HEIGHT = 210;
-        const VASE_WIDTH = 86;
-        const VASE_MOUTH_RATIO = 0.32;
 
         let width, height;
         let animationId;
@@ -224,18 +221,22 @@
                 {h: 145, s: 20, l: 30}
             ],
             flowers: [
-                {h: 348, s: 72, l: 58},
-                {h: 332, s: 64, l: 64},
-                {h: 12, s: 72, l: 62},
-                {h: 286, s: 40, l: 58},
-                {h: 218, s: 48, l: 61},
-                {h: 198, s: 62, l: 58},
-                {h: 44, s: 62, l: 74},
-                {h: 312, s: 44, l: 62}
+                {h: 8,   s: 75, l: 55},   // deep red (tomato/poppy)
+                {h: 15,  s: 70, l: 58},   // red-orange
+                {h: 44,  s: 68, l: 62},   // golden yellow (sunflower)
+                {h: 56,  s: 60, l: 70},   // pale yellow
+                {h: 275, s: 42, l: 54},   // deep purple
+                {h: 285, s: 38, l: 60},   // soft purple
+                {h: 340, s: 62, l: 60},   // rose pink
+                {h: 0,   s: 65, l: 50},   // brick red
             ],
             calyx: {h: 132, s: 34, l: 30},
-            vase: {h: 0, s: 20, l: 92},
-            hearts: {h: 350, s: 100, l: 65}
+            soil: [
+                {h: 25, s: 40, l: 32},
+                {h: 20, s: 35, l: 28},
+                {h: 30, s: 45, l: 38},
+                {h: 18, s: 38, l: 30},
+            ],
         };
 
         function pickFlowerType() {
@@ -272,10 +273,6 @@
 
         function shiftScene(dx, dy) {
             if (!dx && !dy) return;
-            if (vase) {
-                vase.x += dx;
-                vase.y += dy;
-            }
             for (let i = 0; i < stems.length; i++) {
                 const stem = stems[i];
                 stem.x += dx;
@@ -580,7 +577,7 @@
                     this.addPetal(base + 0.95, 15, 10.5, 1, 1.5);
                     this.addPetal(base + Math.PI, 11, 14.5, 0, 1.08);
                     this.addPetal(base + Math.PI + 0.15, 8, 9.5, 0, 1.02);
-                    this.addCenterDots(5, 1, 4.8, 1.2, 2.4, PALETTE.hearts);
+                    this.addCenterDots(5, 1, 4.8, 1.2, 2.4, STAMEN_COLOR);
 
                 } else if (this.type === 2) {
                     this.petalDrawChance = 0.58;
@@ -790,55 +787,42 @@
             }
         }
 
-        class Vase {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.drawn = false;
+        function drawSoil(ctx) {
+            const soilTop = height * 0.85;
+            const strokes = 220;
+            for (let i = 0; i < strokes; i++) {
+                const x = (Math.random() - 0.05) * width * 1.1;
+                const y = soilTop + Math.random() * (height - soilTop + 20);
+                const rx = 50 + Math.random() * 140;
+                const ry = 5 + Math.random() * 10;
+                const c = PALETTE.soil[(Math.random() * PALETTE.soil.length) | 0];
+                const h = c.h + (Math.random() * 12 - 6);
+                const l = c.l + (Math.random() * 10 - 5);
+                ctx.beginPath();
+                ctx.ellipse(x, y, rx, ry, (Math.random() - 0.5) * 0.4, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${h}, ${c.s}%, ${l}%, 0.11)`;
+                ctx.fill();
             }
-            draw(ctx) {
-                if (this.drawn) return;
-                const totalStrokes = 80;
-                const c = PALETTE.vase;
-                for (let i = 0; i < totalStrokes; i++) {
-                    const t = i / (totalStrokes - 1);
-                    const yPos = this.y + (1 - t) * VASE_HEIGHT;
-                    const profile = Math.sin(t * Math.PI);
-                    const w = VASE_WIDTH * (VASE_MOUTH_RATIO + profile * 0.68);
-
-                    ctx.beginPath();
-                    ctx.moveTo(this.x - w, yPos);
-                    ctx.lineTo(this.x + w, yPos);
-                    ctx.lineWidth = 2.6 + Math.random() * 1.8;
-                    ctx.strokeStyle = `hsla(${c.h}, ${c.s}%, ${c.l - (Math.random() * 10)}%, 0.1)`;
-                    ctx.stroke();
-
-                    if (Math.random() > 0.35) {
-                        ctx.beginPath();
-                        ctx.moveTo(this.x + w - 10, yPos);
-                        ctx.lineTo(this.x + w, yPos);
-                        ctx.lineWidth = 3.2;
-                        ctx.strokeStyle = `hsla(${c.h}, ${c.s}%, ${c.l - 30}%, 0.09)`;
-                        ctx.stroke();
-                    }
-                }
-                this.drawn = true;
-            }
-            stop() {
-                this.drawn = true;
+            // Darker top edge of soil
+            for (let i = 0; i < 60; i++) {
+                const x = Math.random() * width;
+                const y = soilTop + (Math.random() - 0.5) * 14;
+                const c = PALETTE.soil[1];
+                ctx.beginPath();
+                ctx.ellipse(x, y, 30 + Math.random() * 80, 3 + Math.random() * 4, (Math.random() - 0.5) * 0.3, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${c.h}, ${c.s}%, ${c.l - 4}%, 0.13)`;
+                ctx.fill();
             }
         }
 
         let stems = [];
         let flowers = [];
         let brush;
-        let vase;
         let resizeRafId = null;
         let formShown = false;
 
         function init() {
             cancelAnimationFrame(animationId);
-            if (vase) vase.stop();
             formShown = false;
             formWrap.classList.remove('visible');
 
@@ -850,14 +834,12 @@
             stems = [];
             flowers = [];
 
-            const startX = width / 2;
-            const startY = height * 0.6;
+            // Draw soil band across bottom 15%
+            drawSoil(paintCtx);
 
-            vase = new Vase(startX, startY);
-            vase.draw(paintCtx);
-
-            const count = window.innerWidth < 600 ? 8 : (window.innerWidth < 1000 ? 11 : 12);
-            const mouthHalf = VASE_WIDTH * VASE_MOUTH_RATIO * (window.innerWidth < 600 ? 0.95 : 1.05);
+            const soilY = height * 0.85;
+            const margin = width * 0.04;
+            const count = width < 600 ? 10 : (width < 1000 ? 16 : 22);
 
             const typeOrder = [0, 1, 2, 3, 4, 5];
             for (let i = typeOrder.length - 1; i > 0; i--) {
@@ -867,15 +849,20 @@
                 typeOrder[j] = tmp;
             }
 
-            for(let i=0; i<count; i++) {
-                const fan = count > 1 ? (i / (count - 1) - 0.5) : 0;
-                const baseOffset = fan * mouthHalf * 1.18 + (Math.random() - 0.5) * mouthHalf * 0.28;
-                const baseX = startX + baseOffset;
-                const angle = -Math.PI / 2 + fan * 0.14 + (Math.random() - 0.5) * 0.09;
-                const h = height * 0.16 + Math.random() * (height * 0.12);
+            for (let i = 0; i < count; i++) {
+                // Distribute evenly across width with slight jitter
+                const t = count > 1 ? i / (count - 1) : 0.5;
+                const baseX = margin + t * (width - margin * 2) + (Math.random() - 0.5) * (width / count) * 0.6;
+                const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.18;
 
-                const stem = new Stem(baseX, startY, h, angle);
-                stem.flowerTypeHint = Math.random() > 0.82 ? pickFlowerType() : typeOrder[i % FLOWER_TYPE_COUNT];
+                // Mix short (20%) and tall (50%) plants for garden depth
+                const isTall = Math.random() > 0.45;
+                const minH = isTall ? height * 0.32 : height * 0.14;
+                const maxH = isTall ? height * 0.50 : height * 0.26;
+                const h = minH + Math.random() * (maxH - minH);
+
+                const stem = new Stem(baseX, soilY, h, angle);
+                stem.flowerTypeHint = Math.random() > 0.78 ? pickFlowerType() : typeOrder[i % FLOWER_TYPE_COUNT];
                 stems.push(stem);
             }
             loop();
