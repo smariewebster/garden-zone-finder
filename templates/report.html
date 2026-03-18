@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Report — {{ location.city }}, {{ location.state }}</title>
+    <style>
+        :root {
+            --paper-base: #fef5f5;
+            --ink-red: #c93f32;
+            --ink-dark: #4a2020;
+            --ink-green: #556b57;
+            --ink-green-light: #6e8a70;
+            --seal-red: #d63447;
+            --rule-color: rgba(74, 32, 32, 0.12);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper-base);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: var(--ink-dark);
+            min-height: 100vh;
+        }
+
+        /* Paper texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 48px 40px 80px;
+        }
+
+        /* ── Header ── */
+        .report-header {
+            border-bottom: 1px solid var(--rule-color);
+            padding-bottom: 28px;
+            margin-bottom: 40px;
+        }
+
+        .back-link {
+            display: inline-block;
+            font-size: 0.82rem;
+            color: var(--ink-green);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+            opacity: 0.8;
+            transition: opacity 0.15s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link::before {
+            content: '← ';
+        }
+
+        .location-title {
+            font-size: 1.7rem;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            margin: 0 0 6px;
+            color: var(--ink-dark);
+        }
+
+        .zone-badge {
+            display: inline-block;
+            font-size: 0.82rem;
+            letter-spacing: 0.06em;
+            color: var(--paper-base);
+            background: var(--ink-green);
+            padding: 2px 9px;
+            border-radius: 2px;
+            margin-left: 10px;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+        }
+
+        .frost-dates {
+            font-size: 0.88rem;
+            color: var(--ink-dark);
+            opacity: 0.6;
+            margin-top: 8px;
+            letter-spacing: 0.02em;
+            line-height: 1.7;
+        }
+
+        .frost-dates span {
+            margin-right: 24px;
+        }
+
+        /* ── Search ── */
+        .search-wrap {
+            margin-bottom: 28px;
+        }
+
+        .plant-search {
+            background: none;
+            border: none;
+            border-bottom: 1px solid rgba(74, 32, 32, 0.35);
+            padding: 6px 2px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--ink-dark);
+            width: 260px;
+            outline: none;
+            letter-spacing: 0.02em;
+            transition: border-color 0.2s;
+        }
+
+        .plant-search:focus {
+            border-bottom-color: var(--ink-dark);
+        }
+
+        .plant-search::placeholder {
+            color: var(--ink-dark);
+            opacity: 0.35;
+        }
+
+        .no-results {
+            display: none;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--ink-dark);
+            opacity: 0.55;
+            margin-top: 32px;
+            letter-spacing: 0.02em;
+        }
+
+        .no-results.visible {
+            display: block;
+        }
+
+        /* ── Tabs ── */
+        .tab-bar {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--rule-color);
+            margin-bottom: 36px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            padding: 10px 20px 9px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-dark);
+            opacity: 0.45;
+            cursor: pointer;
+            transition: opacity 0.15s, border-color 0.15s;
+        }
+
+        .tab-btn:hover {
+            opacity: 0.75;
+        }
+
+        .tab-btn.active {
+            opacity: 1;
+            color: var(--ink-green);
+            border-bottom-color: var(--ink-green);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ── Plant cards ── */
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .plant-card {
+            background: rgba(255, 255, 255, 0.38);
+            border: 1px solid var(--rule-color);
+            border-radius: 2px;
+            padding: 20px 22px;
+        }
+
+        .plant-name {
+            font-size: 1.05rem;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            margin: 0 0 4px;
+            color: var(--ink-dark);
+        }
+
+        .native-tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--ink-green);
+            border: 1px solid var(--ink-green-light);
+            padding: 1px 6px;
+            border-radius: 2px;
+            margin-left: 7px;
+            vertical-align: middle;
+            opacity: 0.85;
+            position: relative;
+            top: -1px;
+        }
+
+        .plant-meta {
+            display: flex;
+            gap: 18px;
+            margin: 10px 0 14px;
+            font-size: 0.8rem;
+            color: var(--ink-dark);
+            opacity: 0.6;
+            letter-spacing: 0.02em;
+        }
+
+        .plant-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .meta-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .meta-value {
+            font-size: 0.84rem;
+            opacity: 1;
+        }
+
+        .plant-rule {
+            border: none;
+            border-top: 1px solid var(--rule-color);
+            margin: 14px 0;
+        }
+
+        /* Companions / Avoid */
+        .companions-section,
+        .avoid-section {
+            margin-top: 10px;
+        }
+
+        .companions-label,
+        .avoid-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .companions-label {
+            color: var(--ink-green);
+        }
+
+        .avoid-label {
+            color: var(--ink-red);
+            opacity: 0.75;
+        }
+
+        .companion-list,
+        .avoid-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .companion-chip,
+        .avoid-chip {
+            font-size: 0.78rem;
+            padding: 3px 9px;
+            border-radius: 2px;
+            letter-spacing: 0.02em;
+            cursor: default;
+            position: relative;
+        }
+
+        .companion-chip {
+            background: rgba(85, 107, 87, 0.1);
+            color: var(--ink-green);
+            border: 1px solid rgba(85, 107, 87, 0.22);
+        }
+
+        .avoid-chip {
+            background: rgba(201, 63, 50, 0.07);
+            color: var(--ink-red);
+            border: 1px solid rgba(201, 63, 50, 0.18);
+        }
+
+        /* Tooltip on hover */
+        .companion-chip[data-reason]:hover::after,
+        .avoid-chip[data-reason]:hover::after {
+            content: attr(data-reason);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ink-dark);
+            color: var(--paper-base);
+            font-size: 0.72rem;
+            padding: 5px 9px;
+            border-radius: 2px;
+            white-space: nowrap;
+            letter-spacing: 0.01em;
+            pointer-events: none;
+            z-index: 10;
+            max-width: 240px;
+            white-space: normal;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* ── Footer ── */
+        .report-footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid var(--rule-color);
+            font-size: 0.78rem;
+            color: var(--ink-dark);
+            opacity: 0.4;
+            letter-spacing: 0.03em;
+            text-align: center;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .page {
+                padding: 32px 20px 60px;
+            }
+
+            .plant-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+
+        <!-- Header -->
+        <header class="report-header">
+            <a class="back-link" href="/">Start over</a>
+            <h1 class="location-title">
+                {{ location.city }}, {{ location.state }}
+                <span class="zone-badge">Zone {{ location.zone }}</span>
+            </h1>
+            <div class="frost-dates">
+                <span>Last spring frost: {{ location.last_spring_frost }}</span>
+                <span>First fall frost: {{ location.first_fall_frost }}</span>
+            </div>
+        </header>
+
+        <!-- Search -->
+        <div class="search-wrap">
+            <input
+                class="plant-search"
+                type="search"
+                id="plantSearch"
+                placeholder="search plants..."
+                autocomplete="off"
+                spellcheck="false"
+            >
+        </div>
+
+        <!-- Tab bar -->
+        {% set category_order = ['vegetable', 'fruit', 'flower', 'herb'] %}
+        {% set category_labels = {
+            'vegetable': 'Vegetables',
+            'fruit': 'Fruits',
+            'flower': 'Flowers',
+            'herb': 'Herbs'
+        } %}
+
+        {% set first_tab = namespace(found=false) %}
+        <nav class="tab-bar" role="tablist">
+            {% for category in category_order %}
+                {% if organized.get(category) %}
+                    {% if not first_tab.found %}
+                        {% set first_tab.found = true %}
+                        <button class="tab-btn active" role="tab" data-tab="{{ category }}">
+                            {{ category_labels[category] }}
+                        </button>
+                    {% else %}
+                        <button class="tab-btn" role="tab" data-tab="{{ category }}">
+                            {{ category_labels[category] }}
+                        </button>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </nav>
+
+        <!-- Tab panels -->
+        {% set first_panel = namespace(found=false) %}
+        {% for category in category_order %}
+            {% if organized.get(category) %}
+                {% if not first_panel.found %}
+                    {% set first_panel.found = true %}
+                    <div class="tab-panel active" id="panel-{{ category }}">
+                {% else %}
+                    <div class="tab-panel" id="panel-{{ category }}">
+                {% endif %}
+                    <div class="plant-grid">
+                        {% for plant in organized[category] %}
+                        <div class="plant-card">
+                            <h3 class="plant-name">
+                                {{ plant.name }}
+                                {% if plant.native_regions %}
+                                    <span class="native-tag">Native</span>
+                                {% endif %}
+                            </h3>
+
+                            <div class="plant-meta">
+                                <div class="plant-meta-item">
+                                    <span class="meta-label">Water</span>
+                                    <span class="meta-value">{{ plant.water | capitalize }}</span>
+                                </div>
+                                <div class="plant-meta-item">
+                                    <span class="meta-label">Days to mature</span>
+                                    <span class="meta-value">{{ plant.days_to_maturity }}</span>
+                                </div>
+                                <div class="plant-meta-item">
+                                    <span class="meta-label">Sowing</span>
+                                    <span class="meta-value">{{ 'Direct sow' if plant.direct_sow else 'Start indoors' }}</span>
+                                </div>
+                            </div>
+
+                            {% if plant.companions or plant.avoid %}
+                            <hr class="plant-rule">
+                            {% endif %}
+
+                            {% if plant.companions %}
+                            <div class="companions-section">
+                                <div class="companions-label">Companions</div>
+                                <ul class="companion-list">
+                                    {% for c in plant.companions %}
+                                    <li class="companion-chip" data-reason="{{ c.reason }}">{{ c.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+
+                            {% if plant.avoid %}
+                            <div class="avoid-section">
+                                <div class="avoid-label">Avoid</div>
+                                <ul class="avoid-list">
+                                    {% for a in plant.avoid %}
+                                    <li class="avoid-chip" data-reason="{{ a.reason }}">{{ a.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <p class="no-results" id="noResults">no plants found</p>
+
+        <footer class="report-footer">
+            Garden Zone Finder &nbsp;·&nbsp; Zone data via phzmapi.org &nbsp;·&nbsp; {{ location.city }}, {{ location.state }} {{ zipcode }}
+        </footer>
+
+    </div>
+    <script>
+        const tabs = document.querySelectorAll('.tab-btn');
+        const panels = document.querySelectorAll('.tab-panel');
+        const searchInput = document.getElementById('plantSearch');
+        const noResults = document.getElementById('noResults');
+
+        function activateTab(btn) {
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            panels.forEach(function(p) { p.classList.remove('active'); });
+            btn.classList.add('active');
+            document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+        }
+
+        tabs.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                activateTab(btn);
+                // Clear search when switching tabs manually
+                searchInput.value = '';
+                applySearch('');
+            });
+        });
+
+        function applySearch(term) {
+            const cards = document.querySelectorAll('.plant-card');
+            const query = term.trim().toLowerCase();
+
+            if (!query) {
+                // Restore normal tab view
+                cards.forEach(function(card) { card.style.display = ''; });
+                panels.forEach(function(p) { p.style.display = ''; });
+                // Re-apply active class display for panels
+                panels.forEach(function(p) {
+                    p.style.display = p.classList.contains('active') ? '' : 'none';
+                });
+                noResults.classList.remove('visible');
+                return;
+            }
+
+            // Show all panels while searching so matches in any category are visible
+            panels.forEach(function(p) { p.style.display = 'block'; });
+
+            var totalVisible = 0;
+
+            panels.forEach(function(panel) {
+                var panelCards = panel.querySelectorAll('.plant-card');
+                var panelVisible = 0;
+
+                panelCards.forEach(function(card) {
+                    var name = card.querySelector('.plant-name').textContent.toLowerCase();
+                    if (name.indexOf(query) !== -1) {
+                        card.style.display = '';
+                        panelVisible++;
+                        totalVisible++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Hide the whole panel if it has no matches
+                panel.style.display = panelVisible > 0 ? 'block' : 'none';
+            });
+
+            noResults.classList.toggle('visible', totalVisible === 0);
+        }
+
+        searchInput.addEventListener('input', function() {
+            applySearch(searchInput.value);
+        });
+    </script>
+</body>
+</html>
