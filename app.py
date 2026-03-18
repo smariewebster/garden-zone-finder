@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from zone_lookup import lookup
 from plants import get_plants_for_zone, is_native_to_region, state_to_region
-from scraper import scrape_all_plants
 from organizer import organize_tips, format_for_display
 from planting_calendar import build_full_calendar, format_calendar
 
@@ -45,13 +44,7 @@ def report():
     for plant in plant_list:
         plant["is_native"] = is_native_to_region(plant, region)
 
-    do_scrape = request.args.get("scrape", "").lower() == "true"
-
-    if do_scrape:
-        scraped_data = scrape_all_plants(plant_list, location["zone"])
-    else:
-        scraped_data = {p["name"]: {} for p in plant_list}
-
+    scraped_data = {p["name"]: {} for p in plant_list}
     organized = organize_tips(scraped_data, plant_list)
 
     # Build calendar with default sow preferences
@@ -63,7 +56,6 @@ def report():
         organized=organized,
         calendar=calendar,
         zipcode=zipcode,
-        scraped=do_scrape,
     )
 
 @app.route("/calendar")
