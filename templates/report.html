@@ -341,6 +341,158 @@
             line-height: 1.4;
         }
 
+        /* ── Checkbox ── */
+        .plant-card {
+            position: relative;
+        }
+
+        .card-check-label {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .card-check-label input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .check-box {
+            width: 13px;
+            height: 13px;
+            border: 1px solid rgba(74, 32, 32, 0.3);
+            border-radius: 1px;
+            flex-shrink: 0;
+            position: relative;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .card-check-label input:checked ~ .check-box {
+            background: var(--ink-green);
+            border-color: var(--ink-green);
+        }
+
+        .card-check-label input:checked ~ .check-box::after {
+            content: '';
+            position: absolute;
+            left: 2px;
+            top: -1px;
+            width: 5px;
+            height: 8px;
+            border-right: 1.5px solid var(--paper-base);
+            border-bottom: 1.5px solid var(--paper-base);
+            transform: rotate(40deg);
+        }
+
+        .check-label-text {
+            font-size: 0.68rem;
+            font-style: italic;
+            letter-spacing: 0.03em;
+            color: var(--ink-dark);
+            opacity: 0.45;
+            transition: opacity 0.15s;
+        }
+
+        .card-check-label:hover .check-label-text {
+            opacity: 0.75;
+        }
+
+        .card-check-label:hover .check-box {
+            border-color: rgba(74, 32, 32, 0.55);
+        }
+
+        .plant-card.selected {
+            border-color: rgba(85, 107, 87, 0.35);
+            background: rgba(85, 107, 87, 0.04);
+        }
+
+        /* ── Select all / clear ── */
+        .search-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 16px;
+            vertical-align: middle;
+        }
+
+        .search-action-link {
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--ink-green);
+            opacity: 0.65;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            transition: opacity 0.15s;
+            background: none;
+            border: none;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            padding: 0;
+        }
+
+        .search-action-link:hover {
+            opacity: 1;
+        }
+
+        /* ── Sticky calendar bar ── */
+        .calendar-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--paper-base);
+            border-top: 1px solid rgba(74, 32, 32, 0.18);
+            padding: 14px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 200;
+            transform: translateY(100%);
+            transition: transform 0.25s ease;
+        }
+
+        .calendar-bar.visible {
+            transform: translateY(0);
+        }
+
+        .calendar-bar-count {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--ink-dark);
+            opacity: 0.65;
+            letter-spacing: 0.02em;
+        }
+
+        .calendar-bar-btn {
+            background: rgba(74, 32, 32, 0.06);
+            border: 1px solid rgba(74, 32, 32, 0.22);
+            border-radius: 2px;
+            padding: 8px 18px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            color: var(--ink-dark);
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .calendar-bar-btn:hover {
+            background: rgba(74, 32, 32, 0.12);
+            border-color: rgba(74, 32, 32, 0.38);
+        }
+
+        /* Extra bottom padding when bar is visible */
+        body.bar-open .page {
+            padding-bottom: 100px;
+        }
+
         /* ── Footer ── */
         .report-footer {
             margin-top: 60px;
@@ -395,6 +547,10 @@
                 autocomplete="off"
                 spellcheck="false"
             >
+            <span class="search-actions">
+                <button class="search-action-link" id="selectAll">select all</button>
+                <button class="search-action-link" id="clearAll">clear all</button>
+            </span>
         </div>
 
         <!-- Tab bar -->
@@ -436,7 +592,12 @@
                 {% endif %}
                     <div class="plant-grid">
                         {% for plant in organized[category] %}
-                        <div class="plant-card">
+                        <div class="plant-card" data-name="{{ plant.name }}">
+                            <label class="card-check-label">
+                                <input type="checkbox" class="plant-checkbox" value="{{ plant.name }}">
+                                <span class="check-box"></span>
+                                <span class="check-label-text">add to calendar</span>
+                            </label>
                             <h3 class="plant-name">
                                 {{ plant.name }}
                                 {% if plant.native_regions %}
@@ -498,12 +659,25 @@
         </footer>
 
     </div>
-    <script>
-        const tabs = document.querySelectorAll('.tab-btn');
-        const panels = document.querySelectorAll('.tab-panel');
-        const searchInput = document.getElementById('plantSearch');
-        const noResults = document.getElementById('noResults');
 
+    <!-- Sticky calendar bar -->
+    <div class="calendar-bar" id="calendarBar">
+        <span class="calendar-bar-count" id="calendarBarCount">0 plants selected</span>
+        <button class="calendar-bar-btn" id="calendarBarBtn">view planting calendar →</button>
+    </div>
+    <script>
+        const tabs        = document.querySelectorAll('.tab-btn');
+        const panels      = document.querySelectorAll('.tab-panel');
+        const searchInput = document.getElementById('plantSearch');
+        const noResults   = document.getElementById('noResults');
+        const calendarBar = document.getElementById('calendarBar');
+        const barCount    = document.getElementById('calendarBarCount');
+        const barBtn      = document.getElementById('calendarBarBtn');
+        const selectAllBtn = document.getElementById('selectAll');
+        const clearAllBtn  = document.getElementById('clearAll');
+        const ZIP = '{{ zipcode }}';
+
+        // ── Tabs ──────────────────────────────────────────────
         function activateTab(btn) {
             tabs.forEach(function(t) { t.classList.remove('active'); });
             panels.forEach(function(p) { p.classList.remove('active'); });
@@ -514,21 +688,17 @@
         tabs.forEach(function(btn) {
             btn.addEventListener('click', function() {
                 activateTab(btn);
-                // Clear search when switching tabs manually
                 searchInput.value = '';
                 applySearch('');
             });
         });
 
+        // ── Search ────────────────────────────────────────────
         function applySearch(term) {
-            const cards = document.querySelectorAll('.plant-card');
-            const query = term.trim().toLowerCase();
+            var query = term.trim().toLowerCase();
 
             if (!query) {
-                // Restore normal tab view
-                cards.forEach(function(card) { card.style.display = ''; });
-                panels.forEach(function(p) { p.style.display = ''; });
-                // Re-apply active class display for panels
+                document.querySelectorAll('.plant-card').forEach(function(c) { c.style.display = ''; });
                 panels.forEach(function(p) {
                     p.style.display = p.classList.contains('active') ? '' : 'none';
                 });
@@ -536,27 +706,17 @@
                 return;
             }
 
-            // Show all panels while searching so matches in any category are visible
             panels.forEach(function(p) { p.style.display = 'block'; });
-
             var totalVisible = 0;
 
             panels.forEach(function(panel) {
-                var panelCards = panel.querySelectorAll('.plant-card');
                 var panelVisible = 0;
-
-                panelCards.forEach(function(card) {
+                panel.querySelectorAll('.plant-card').forEach(function(card) {
                     var name = card.querySelector('.plant-name').textContent.toLowerCase();
-                    if (name.indexOf(query) !== -1) {
-                        card.style.display = '';
-                        panelVisible++;
-                        totalVisible++;
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    var show = name.indexOf(query) !== -1;
+                    card.style.display = show ? '' : 'none';
+                    if (show) { panelVisible++; totalVisible++; }
                 });
-
-                // Hide the whole panel if it has no matches
                 panel.style.display = panelVisible > 0 ? 'block' : 'none';
             });
 
@@ -565,6 +725,53 @@
 
         searchInput.addEventListener('input', function() {
             applySearch(searchInput.value);
+        });
+
+        // ── Checkboxes ────────────────────────────────────────
+        function updateBar() {
+            var checked = document.querySelectorAll('.plant-checkbox:checked');
+            var count = checked.length;
+            var label = count === 1 ? '1 plant selected' : count + ' plants selected';
+            barCount.textContent = label;
+            calendarBar.classList.toggle('visible', count > 0);
+            document.body.classList.toggle('bar-open', count > 0);
+        }
+
+        document.addEventListener('change', function(e) {
+            if (!e.target.classList.contains('plant-checkbox')) return;
+            var card = e.target.closest('.plant-card');
+            card.classList.toggle('selected', e.target.checked);
+            updateBar();
+        });
+
+        // ── Select all / Clear all ────────────────────────────
+        selectAllBtn.addEventListener('click', function() {
+            // Only select visible cards
+            document.querySelectorAll('.plant-card').forEach(function(card) {
+                if (card.style.display === 'none') return;
+                var cb = card.querySelector('.plant-checkbox');
+                cb.checked = true;
+                card.classList.add('selected');
+            });
+            updateBar();
+        });
+
+        clearAllBtn.addEventListener('click', function() {
+            document.querySelectorAll('.plant-checkbox').forEach(function(cb) {
+                cb.checked = false;
+                cb.closest('.plant-card').classList.remove('selected');
+            });
+            updateBar();
+        });
+
+        // ── Calendar bar button ───────────────────────────────
+        barBtn.addEventListener('click', function() {
+            var names = [];
+            document.querySelectorAll('.plant-checkbox:checked').forEach(function(cb) {
+                names.push(encodeURIComponent(cb.value));
+            });
+            if (names.length === 0) return;
+            window.location.href = '/calendar?zip=' + ZIP + '&plants=' + names.join(',');
         });
     </script>
 </body>

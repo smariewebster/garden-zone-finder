@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planting Calendar — {{ location.city }}, {{ location.state }}</title>
+    <style>
+        :root {
+            --paper-base: #fef5f5;
+            --ink-red: #c93f32;
+            --ink-dark: #4a2020;
+            --ink-green: #556b57;
+            --ink-green-light: #6e8a70;
+            --rule-color: rgba(74, 32, 32, 0.12);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper-base);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: var(--ink-dark);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 48px 40px 80px;
+        }
+
+        /* ── Header ── */
+        .cal-header {
+            border-bottom: 1px solid var(--rule-color);
+            padding-bottom: 28px;
+            margin-bottom: 40px;
+        }
+
+        .back-link {
+            display: inline-block;
+            font-size: 0.82rem;
+            color: var(--ink-green);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+            opacity: 0.8;
+            transition: opacity 0.15s;
+        }
+
+        .back-link:hover { opacity: 1; }
+        .back-link::before { content: '← '; }
+
+        .location-title {
+            font-size: 1.7rem;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            margin: 0 0 6px;
+        }
+
+        .zone-badge {
+            display: inline-block;
+            font-size: 0.82rem;
+            letter-spacing: 0.06em;
+            color: var(--paper-base);
+            background: var(--ink-green);
+            padding: 2px 9px;
+            border-radius: 2px;
+            margin-left: 10px;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+        }
+
+        .frost-dates {
+            font-size: 0.88rem;
+            opacity: 0.6;
+            margin-top: 8px;
+            letter-spacing: 0.02em;
+            line-height: 1.7;
+        }
+
+        .frost-dates span { margin-right: 24px; }
+
+        .selection-note {
+            margin-top: 14px;
+            font-size: 0.8rem;
+            font-style: italic;
+            color: var(--ink-dark);
+            opacity: 0.5;
+            letter-spacing: 0.02em;
+        }
+
+        /* ── Plant blocks ── */
+        .plant-block {
+            margin-bottom: 44px;
+            padding-bottom: 44px;
+            border-bottom: 1px solid var(--rule-color);
+        }
+
+        .plant-block:last-of-type {
+            border-bottom: none;
+        }
+
+        .plant-block-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .plant-block-name {
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            margin: 0;
+        }
+
+        .native-tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--ink-green);
+            border: 1px solid var(--ink-green-light);
+            padding: 1px 6px;
+            border-radius: 2px;
+            margin-left: 8px;
+            vertical-align: middle;
+            opacity: 0.85;
+            position: relative;
+            top: -1px;
+        }
+
+        /* ── Method toggle (dual schedule) ── */
+        .method-toggle {
+            display: flex;
+            gap: 0;
+            border: 1px solid var(--rule-color);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .method-btn {
+            background: none;
+            border: none;
+            padding: 5px 14px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            color: var(--ink-dark);
+            opacity: 0.45;
+            cursor: pointer;
+            transition: background 0.15s, opacity 0.15s;
+        }
+
+        .method-btn:first-child {
+            border-right: 1px solid var(--rule-color);
+        }
+
+        .method-btn.active {
+            background: rgba(85, 107, 87, 0.1);
+            color: var(--ink-green);
+            opacity: 1;
+        }
+
+        .method-btn:hover:not(.active) {
+            opacity: 0.7;
+        }
+
+        /* ── Timeline ── */
+        .schedule-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .schedule-entry {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 0 20px;
+            padding: 10px 0;
+            border-top: 1px solid var(--rule-color);
+            align-items: start;
+        }
+
+        .schedule-entry:first-child {
+            border-top: none;
+        }
+
+        .entry-week {
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
+            color: var(--ink-dark);
+            opacity: 0.5;
+            padding-top: 2px;
+            white-space: nowrap;
+        }
+
+        .entry-right {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .entry-action {
+            font-size: 0.9rem;
+            letter-spacing: 0.01em;
+            line-height: 1.45;
+        }
+
+        .entry-warning {
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--ink-red);
+            opacity: 0.8;
+            letter-spacing: 0.01em;
+        }
+
+        .entry-warning::before {
+            content: '⚠  ';
+        }
+
+        /* hidden schedule option */
+        .schedule-option {
+            display: none;
+        }
+
+        .schedule-option.active {
+            display: block;
+        }
+
+        /* ── Footer ── */
+        .cal-footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid var(--rule-color);
+            font-size: 0.78rem;
+            color: var(--ink-dark);
+            opacity: 0.4;
+            letter-spacing: 0.03em;
+            text-align: center;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .page { padding: 32px 20px 60px; }
+            .location-title { font-size: 1.3rem; }
+            .schedule-entry { grid-template-columns: 1fr; gap: 2px; }
+            .entry-week { opacity: 0.4; font-size: 0.72rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+
+        <header class="cal-header">
+            <a class="back-link" href="/report?zip={{ zipcode }}">Back to plant report</a>
+            <h1 class="location-title">
+                Planting Calendar
+                <span class="zone-badge">Zone {{ location.zone }}</span>
+            </h1>
+            <div class="frost-dates">
+                <span>{{ location.city }}, {{ location.state }}</span>
+                <span>Last spring frost: {{ location.last_spring_frost }}</span>
+                <span>First fall frost: {{ location.first_fall_frost }}</span>
+            </div>
+            {% if selected_plants %}
+            <p class="selection-note">
+                Showing {{ selected_plants | length }} selected plant{{ 's' if selected_plants | length != 1 else '' }}:
+                {{ selected_plants | join(', ') }}
+            </p>
+            {% endif %}
+        </header>
+
+        {% set category_order = ['vegetable', 'fruit', 'flower', 'herb'] %}
+
+        {% for category in category_order %}
+            {% set ns = namespace(has_plants=false) %}
+            {% for name, data in calendar.items() %}
+                {% if data.category == category %}{% set ns.has_plants = true %}{% endif %}
+            {% endfor %}
+
+            {% if ns.has_plants %}
+                {% for name, data in calendar.items() %}
+                    {% if data.category == category %}
+                    {% set info = data.schedule_info %}
+                    <div class="plant-block">
+                        <div class="plant-block-header">
+                            <h2 class="plant-block-name">
+                                {{ name }}
+                                {% if data.native_regions %}
+                                    <span class="native-tag">Native</span>
+                                {% endif %}
+                            </h2>
+
+                            {% if info.type == 'dual' %}
+                            <div class="method-toggle" data-plant="{{ name | replace(' ', '-') | lower }}">
+                                <button class="method-btn active" data-option="a">Start indoors</button>
+                                <button class="method-btn" data-option="b">Direct sow</button>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if info.type == 'single' %}
+                        <ul class="schedule-list">
+                            {% for entry in info.schedule %}
+                            <li class="schedule-entry">
+                                <span class="entry-week">{{ entry.week }}</span>
+                                <div class="entry-right">
+                                    <span class="entry-action">{{ entry.action }}</span>
+                                    {% if entry.warning %}
+                                    <span class="entry-warning">{{ entry.warning }}</span>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        {% elif info.type == 'dual' %}
+                        <div class="schedule-option active" data-option="a">
+                            <ul class="schedule-list">
+                                {% for entry in info.option_a %}
+                                <li class="schedule-entry">
+                                    <span class="entry-week">{{ entry.week }}</span>
+                                    <div class="entry-right">
+                                        <span class="entry-action">{{ entry.action }}</span>
+                                        {% if entry.warning %}
+                                        <span class="entry-warning">{{ entry.warning }}</span>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="schedule-option" data-option="b">
+                            <ul class="schedule-list">
+                                {% for entry in info.option_b %}
+                                <li class="schedule-entry">
+                                    <span class="entry-week">{{ entry.week }}</span>
+                                    <div class="entry-right">
+                                        <span class="entry-action">{{ entry.action }}</span>
+                                        {% if entry.warning %}
+                                        <span class="entry-warning">{{ entry.warning }}</span>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+
+        <footer class="cal-footer">
+            Garden Zone Finder &nbsp;·&nbsp; Zone data via phzmapi.org &nbsp;·&nbsp; {{ location.city }}, {{ location.state }} {{ zipcode }}
+        </footer>
+
+    </div>
+
+    <script>
+        document.querySelectorAll('.method-toggle').forEach(function(toggle) {
+            var block = toggle.closest('.plant-block');
+            toggle.querySelectorAll('.method-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var option = btn.dataset.option;
+                    toggle.querySelectorAll('.method-btn').forEach(function(b) {
+                        b.classList.toggle('active', b.dataset.option === option);
+                    });
+                    block.querySelectorAll('.schedule-option').forEach(function(panel) {
+                        panel.classList.toggle('active', panel.dataset.option === option);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

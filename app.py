@@ -59,5 +59,41 @@ def report():
         zipcode=zipcode,
     )
 
+@app.route("/calendar")
+def calendar_view():
+    """Planting calendar page, optionally filtered to selected plants."""
+    zipcode = request.args.get("zip", "").strip()
+    plants_param = request.args.get("plants", "").strip()
+
+    if not zipcode:
+        return render_template("index.html")
+
+    location = lookup(zipcode)
+    if not location:
+        return render_template("index.html")
+
+    plant_list = get_plants_for_zone(location["zone"])
+
+    # Filter to selected plants if provided
+    if plants_param:
+        selected_names = {name.strip() for name in plants_param.split(",") if name.strip()}
+        plant_list = [p for p in plant_list if p["name"] in selected_names]
+    else:
+        selected_names = None
+
+    calendar = build_full_calendar(
+        plant_list,
+        location["last_spring_frost"],
+        location["first_fall_frost"],
+    )
+
+    return render_template(
+        "calendar.html",
+        location=location,
+        calendar=calendar,
+        zipcode=zipcode,
+        selected_plants=sorted(selected_names) if selected_names else None,
+    )
+
 if __name__ == "__main__":
     app.run(debug=True)
